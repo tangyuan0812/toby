@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/front/header::header(title='友情链接',keywords=null)"></div>
+<body>
+<article class="main-content post-page">
+    <div id="post-content" class="post-content">
+        <h3>友情链接</h3>
+        <ul class="flinks">
+            <th:block th:each="link : ${links}">
+                <li>🔒 <a th:href="${link.slug}" target="_blank" th:text="${link.name}"></a></li>
+            </th:block>
+        </ul>
+        <h3>链接须知</h3>
+        <blockquote>
+            <ul>
+                <li><p>请确定贵站可以稳定运营</p></li>
+                <li><p>原创博客优先，技术类博客优先，设计、视觉类博客优先</p></li>
+                <li><p>经常过来访问和评论，眼熟的</p></li>
+            </ul>
+        </blockquote>
+        <h3>基本信息</h3>
+        <blockquote>
+            <ul>
+                <li><p>网站名称：农码一生为了谁 - MyStory个人博客</p></li>
+                <li><p>网站地址：http://www.nmyswls.com</p></li>
+            </ul>
+        </blockquote>
+        <!--<pre>-->
+            <!--<code class="lang-md hljs markdown">-->
+                <!--网站名称：农码一生为了谁 - MyStory个人博客-->
+                <!--网站地址：http://www.nmyswls.com-->
+            <!--</code>-->
+        <!--</pre>-->
+
+        <p>扣扣群：4060038 欢迎入伙 ^_^</p>
+        <p>个人邮箱：zhangjianbing777@163.com 互换友链 ^_^</p>
+        <p>我会不定时对无法访问的网址进行清理，请保证自己的链接长期有效 ^_^</p></div>
+</article>
+</body>
+<div th:replace="themes/front/footer::footer"></div>
+</html>

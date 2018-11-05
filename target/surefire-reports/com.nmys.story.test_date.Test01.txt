@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.nmys.story.test_date.Test01
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.nmys.story.test_date.Test01

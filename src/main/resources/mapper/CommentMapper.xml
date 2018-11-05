@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nmys.story.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.nmys.story.model.entity.Comments">
+        <id column="coid" jdbcType="INTEGER" property="coid" />
+        <result column="cid" jdbcType="INTEGER" property="cid" />
+        <result column="created" jdbcType="INTEGER" property="created" />
+        <result column="author" jdbcType="VARCHAR" property="author" />
+        <result column="author_id" jdbcType="INTEGER" property="author_id" />
+        <result column="owner_id" jdbcType="INTEGER" property="owner_id" />
+        <result column="created" jdbcType="INTEGER" property="created" />
+        <result column="mail" jdbcType="INTEGER" property="mail" />
+        <result column="url" jdbcType="INTEGER" property="url" />
+        <result column="ip" jdbcType="VARCHAR" property="ip" />
+        <result column="agent" jdbcType="VARCHAR" property="agent" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="parent" jdbcType="VARCHAR" property="parent" />
+        <collection property="commentsList" select="getChildsCommentsByParent" column="{parent=coid}" ofType="com.nmys.story.model.entity.Comments">
+            <id column="coid" jdbcType="INTEGER" property="coid" />
+            <result column="cid" jdbcType="INTEGER" property="cid" />
+            <result column="created" jdbcType="INTEGER" property="created" />
+            <result column="author" jdbcType="VARCHAR" property="author" />
+            <result column="author_id" jdbcType="INTEGER" property="author_id" />
+            <result column="owner_id" jdbcType="INTEGER" property="owner_id" />
+            <result column="created" jdbcType="INTEGER" property="created" />
+            <result column="mail" jdbcType="INTEGER" property="mail" />
+            <result column="url" jdbcType="INTEGER" property="url" />
+            <result column="ip" jdbcType="VARCHAR" property="ip" />
+            <result column="agent" jdbcType="VARCHAR" property="agent" />
+            <result column="content" jdbcType="VARCHAR" property="content" />
+            <result column="type" jdbcType="VARCHAR" property="type" />
+            <result column="status" jdbcType="VARCHAR" property="status" />
+            <result column="parent" jdbcType="VARCHAR" property="parent" />
+        </collection>
+    </resultMap>
+
+
+
+    <insert id="saveComment" parameterType="com.nmys.story.model.entity.Comments" useGeneratedKeys="true" keyProperty="coid">
+        insert into t_comments (coid, cid, created,
+                                author, author_id, owner_id,
+                                mail, url, ip, agent,
+                                type, status, parent,
+                                content)
+        values (#{coid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{created,jdbcType=INTEGER},
+                #{author,jdbcType=VARCHAR}, #{author_id,jdbcType=INTEGER}, #{owner_id,jdbcType=INTEGER},
+                #{mail,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR},
+                #{agent,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+                #{parent,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <update id="updateCommentById">
+        UPDATE t_comments SET status = 'approved' WHERE cid = #{id}
+    </update>
+
+    <update id="updateComment" parameterType="com.nmys.story.model.entity.Comments">
+        update t_comments
+        <set>
+            <if test="cid != null">
+                cid = #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=INTEGER},
+            </if>
+            <if test="author_id != null">
+                author_id = #{author_id,jdbcType=INTEGER},
+            </if>
+            <if test="author != null">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="owner_id != null">
+                owner_id = #{owner_id,jdbcType=INTEGER},
+            </if>
+            <if test="mail != null">
+                mail = #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="agent != null">
+                agent = #{agent,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="parent != null">
+                parent = #{parent,jdbcType=INTEGER},
+            </if>
+        </set>
+        where coid = #{coid,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delCommentById">
+        DELETE FROM t_comments WHERE coid = #{id}
+    </delete>
+
+    <select id="selectCommentCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_comments
+    </select>
+
+    <select id="selectCommentByid" resultMap="BaseResultMap">
+        SELECT * from t_comments WHERE cid = #{id}
+    </select>
+
+    <select id="selectNewComments" resultMap="BaseResultMap">
+        SELECT * FROM  t_comments ORDER BY created DESC
+    </select>
+
+    <select id="selectCommentsByAuthorId" resultMap="BaseResultMap">
+        SELECT * FROM t_comments WHERE author_id != #{authorId} order by created desc
+    </select>
+
+    <select id="getCommentsListByContentId" resultMap="BaseResultMap">
+        SELECT * FROM t_comments WHERE cid = #{cid} and status = #{status} and parent = '0' order by created desc
+    </select>
+
+    <select id="getNotAuditComments" resultMap="BaseResultMap">
+        SELECT * from t_comments WHERE status = 'not_audit'
+    </select>
+
+    <select id="getChildsCommentsByParent" resultMap="BaseResultMap">
+        SELECT * FROM t_comments WHERE status = 'approved' and parent = #{parent} order by created asc
+    </select>
+</mapper>

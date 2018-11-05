@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nmys.story.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.nmys.story.model.entity.Users">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="home_url" jdbcType="VARCHAR" property="home_url" />
+        <result column="screen_name" jdbcType="VARCHAR" property="screen_name" />
+        <result column="created" jdbcType="INTEGER" property="created" />
+        <result column="activated" jdbcType="INTEGER" property="activated" />
+        <result column="logged" jdbcType="INTEGER" property="logged" />
+        <result column="group_name" jdbcType="VARCHAR" property="group_name" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        username, password, email, home_url, screen_name, created, activated, logged, group_name
+    </sql>
+
+    <insert id="saveUser" parameterType="com.nmys.story.model.entity.Users" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_users (id, username, password,
+                             email, home_url, screen_name,
+                             created, activated, logged,
+                             group_name,status)
+        VALUES (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{home_url,jdbcType=VARCHAR}, #{screen_name,jdbcType=VARCHAR},
+                #{created,jdbcType=INTEGER}, #{activated,jdbcType=INTEGER}, #{logged,jdbcType=INTEGER},
+                #{group_name,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getUserByUserNameAndPassword" resultMap="BaseResultMap">
+        SELECT * FROM t_users WHERE username = #{username} and password = #{password}
+    </select>
+
+    <select id="selectUserByUsername" resultMap="BaseResultMap">
+        SELECT * FROM t_users WHERE username = #{username}
+    </select>
+
+    <select id="selectUserById" resultMap="BaseResultMap">
+        SELECT * FROM t_users WHERE id = #{id}
+    </select>
+
+    <update id="updateUser" parameterType="com.nmys.story.model.entity.Users">
+        update t_users
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="home_url != null">
+                home_url = #{home_url,jdbcType=VARCHAR},
+            </if>
+            <if test="screen_name != null">
+                screen_name = #{screen_name,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=INTEGER},
+            </if>
+            <if test="activated != null">
+                activated = #{activated,jdbcType=INTEGER},
+            </if>
+            <if test="logged != null">
+                logged = #{logged,jdbcType=INTEGER},
+            </if>
+            <if test="group_name != null">
+                group_name = #{group_name,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

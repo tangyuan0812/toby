@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/front/header::header(null,null)"></div>
+<body>
+<div class="main-content index-page clearfix">
+    <div class="post-lists">
+        <div class="post-lists-body">
+            <div class="post-list-item" th:each="article: ${articles.list}">
+                <div class="post-list-item-container">
+
+                    <div class="item-thumb  bg-deepgrey" th:style="'background-image:url('+@{${commons.show_thumb(article)}}+');'"></div>
+
+                    <a th:href="${commons.permalink(article)}+'/1'">
+                        <div class="item-desc">
+                            <p th:text="${commons.intro(article,70)}+'...'"></p>
+                        </div>
+                    </a>
+
+                    <div class="item-slant reverse-slant &lt; bg-deepgrey"></div>
+                    <div class="item-slant"></div>
+                    <div class="item-label">
+                        <div class="item-title">
+                            <a th:href="${commons.permalink(article)}+'/1'" th:text="${article.title}"></a>
+                        </div>
+                        <div class="item-meta clearfix">
+                            <div th:class="'item-meta-ico '+ ${commons.show_icon(article.cid)}"
+                                 th:style="'background: url('+@{/user/img/bg-ico.png}+');no-repeat;background-size: 40px auto;' ">
+
+                            </div>
+                            <div class="item-meta-cat" th:utext="${commons.show_categories(article.categories)}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lists-navigator clearfix">
+        <div th:replace="comm/macros::pageNav(${articles},'Previous','Next','page','')"></div>
+    </div>
+</div>
+</body>
+<div th:replace="themes/front/footer::footer"></div>
+</html>
