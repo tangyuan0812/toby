@@ -57,8 +57,8 @@ public class BaseInterceptor implements HandlerInterceptor {
         logger.info("UserAgent: {}", request.getHeader(USER_AGENT));
         // 获取来访用户的IP地址
         logger.info("用户访问地址: {}, 来路地址: {}", uri, IPKit.getIpAddrByRequest(request));
-//
-//        // 查看session中是否有登录用户
+
+        // 查看session中是否有登录用户
 //        Users user = TaleUtils.getLoginUser(request);
 //        if (null == user) {
 //            // 用户不走登录,首先查看cookie中是否有用户信息
@@ -76,15 +76,15 @@ public class BaseInterceptor implements HandlerInterceptor {
 //            response.sendRedirect(request.getContextPath() + "/admin/login");
 //            return false;
 //        }
-//
-//        //设置get请求的token
-//        if (request.getMethod().equals("GET")) {
-//            // 紧凑格式的 UUID
-//            String csrf_token = UUID.UU64();
-//            // 默认存储30分钟
-//            cache.hset(Types.CSRF_TOKEN, csrf_token, uri, 30 * 60);
-//            request.setAttribute("_csrf_token", csrf_token);
-//        }
+
+        //设置get请求的token
+        if (request.getMethod().equals("GET")) {
+            // 紧凑格式的 UUID
+            String csrf_token = UUID.UU64();
+            // 默认存储30分钟
+            cache.hset(Types.CSRF_TOKEN, csrf_token, uri, 30 * 60);
+            request.setAttribute("_csrf_token", csrf_token);
+        }
         return true;
     }
 

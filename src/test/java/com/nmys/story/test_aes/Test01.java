@@ -19,7 +19,7 @@ public class Test01 {
 
     @Test
     public void m1() throws Exception {
-        String aes = enAes("1", "0123456789abcdef");
+        String aes = enAes("root", "0123456789abcdef");
         System.out.println("加密后的数据:"+aes);
         String deAes = deAes(aes, "0123456789abcdef");
         System.out.println("解密密后的数据:"+deAes);
